@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Emoji Wall</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+    <h2>Live Emoji Wall</h2>
+
+    <input id="user" placeholder="Your name: " />
+    <input id="emoji" placeholder="Your emoji: " />
+    <button id="submit">Submit</button>
+
+    <div id="Display">
+        <% emojis.forEach(e => { %>
+            <div class="emoji-post"><%= e.user %>: <%= e.emoji %></div>
+        <% }) %>
+    </div>
+
+    <script>
+        const socket = io();
+        const userInput = document.getElementById("user");
+        const emojiInput = document.getElementById("emoji");
+        const sendButton = document.getElementById("submit");
+        const wall = document.getElementById("Display");
+
+        function sendEmoji() {
+            const user = userInput.value.trim();
+            const emoji = emojiInput.value.trim();
+
+            if (!user || !emoji) {
+                alert("Please enter both your name and an emoji!");
+                return;
+            }
+
+            socket.emit("new-emoji", { user, emoji });
+
+            userInput.value = "";
+            emojiInput.value = "";
+        }
+
+        sendButton.addEventListener("click", sendEmoji);
+
+        socket.on("update-wall", (emojis) => {
+            wall.innerHTML = emojis
+                .map(e => `<div class="emoji-post">${e.user}: ${e.emoji}</div>`)
+                .join("");
+        });
+
+        function playSound() {
+            const audio = new Audio("/public/EmojiSoundNotify.mp3");
+            audio.play();
+        }
+
+        socket.on("new-emoji", (data) => {
+            playSound();
+
+            const themes = {
+                "🌊": "#87CEEB",
+                "🔥": "#FF4500",
+                "🌿": "#228B22",
+            };
+
+            document.body.style.background = themes[data.emoji] || "#f7f7fb";
+        });
+    </script>
+</body>
+</html>

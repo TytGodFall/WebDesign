@@ -1,0 +1,55 @@
+
+body {
+    font-family: sans-serif;
+    text-align: center;
+    background: #f7f7fb;
+    margin: 0;
+    padding: 20px;
+    transition: background 0.5s ease; /* Smooth background change */
+}
+
+/* Emoji post styling */
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.emoji-post {
+    font-size: 2rem;
+    padding: 10px;
+    display: inline-block;
+    background: #ffffff;
+    border-radius: 8px;
+    animation: bounce 0.6s infinite; /* Make emojis bounce */
+}
+
+/* Input fields */
+input {
+    padding: 0.5rem;
+    margin: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+input:focus {
+    border-color: #4caf50;
+}
+
+/* Button styling */
+button {
+    padding: 0.6rem 1.2rem;
+    background: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background: #45a049;
+    transform: scale(1.05);
+}
